@@ -1,3 +1,0 @@
-* TODO
-** Developer tools doc
-** FRS with use cases
