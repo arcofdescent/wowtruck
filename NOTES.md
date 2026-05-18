@@ -13,3 +13,51 @@ A bid window is the time period during which vendors are allowed to submit bids 
 ## What is forecast?
 
 A forecast is an expected future transportation requirement, usually shared before it becomes a confirmed booking or RFQ. It helps the platform, admins, and vendors plan vehicle capacity, pricing, lanes, and availability in advance. A forecast is not itself a confirmed booking unless it is later converted into an actual booking or RFQ.
+
+## What is an indent?
+
+An indent is a formal demand or planning request for transport capacity. In these use cases it is often close to a forecast: it captures the customer's expected movement requirement before final execution, such as lane, pickup date/time, vehicle requirement, material/load details, and commercial context.
+
+An indent should not be treated as the same thing as an execution booking. It can become the anchor for an RFQ, bid review, award, or later booking creation, but the actual booking lifecycle starts only when a transport job is confirmed and created for execution.
+
+## What is POD?
+
+POD usually means Proof of Delivery in these use cases. It is the evidence that delivery happened, such as a signed receipt, uploaded document, photo, electronic acknowledgement, OTP confirmation, or scanned physical copy. POD can affect delivery confirmation, customer reporting, payment handoff, and POD pendency reports.
+
+Be careful because POD can also mean Port of Discharge in some logistics contexts. In this documentation set, when POD appears near delivery confirmation, documents, reports, or receipts, read it as Proof of Delivery unless a location/port context explicitly says otherwise.
+
+## What is LR?
+
+LR means Lorry Receipt. It is a transport document or receipt generated or handed over around pickup/delivery, depending on customer and load policy. It typically records shipment, consignor/consignee, vehicle, route, and receipt details used for operational proof, customer handoff, and downstream document/reporting workflows.
+
+LR is related to POD but not the same thing. LR is the transport receipt/document for the consignment, while POD is the evidence that delivery was completed.
+
+## What is SAP/ERP payment sync?
+
+SAP/ERP payment sync is the controlled exchange between the logistics platform and the external finance/accounting system. The platform may show invoices, payment attempts, receipts, refunds, and settlement status, but the accounting truth such as ledger posting, tax books, and finance close lives in SAP or the configured ERP.
+
+This distinction matters because the platform should not silently invent final finance state. It should send or receive updates through approved APIs, store correlation references, handle retries safely, and keep its operational payment view consistent with the ERP result.
+
+## What is SIM-based tracking?
+
+SIM-based tracking is vehicle location tracking supplied by a SIM, GPS, or telematics provider instead of the driver's mobile app. It can be used when mobile GPS is unavailable, unreliable, or when customer/policy requires provider-backed vehicle tracking.
+
+SIM-based tracking is a tracking source, not a booking status. The system may need to compare it with mobile GPS, manual updates, or other telemetry before deciding the latest trusted location shown to operations or customers.
+
+## What is duty status?
+
+Duty status is the driver's work-availability state, such as available, busy, offline, or otherwise unavailable. It helps dispatch and fleet operations decide whether a driver can be considered for assignment or monitoring.
+
+Duty status should not be confused with load state. A driver may be on duty but not currently tied to a booking, or may be busy because they are already assigned to an active trip.
+
+## What is pricing basis?
+
+Pricing basis is the source or method used to calculate or choose the commercial price for a booking, quote, RFQ, or lane. Examples include customer rate card, vehicle type pricing, fixed lane rate, distance-based pricing, vendor contract, manual quote, spot rate, or RFQ outcome.
+
+This term is important because two prices can have the same amount but different governance. A manually entered quote, an approved rate-card price, and a winning RFQ bid may each require different approvals, audit records, validity rules, and downstream handling.
+
+## What is an idempotency key?
+
+An idempotency key is a unique reference used to make repeated requests safe. If a payment callback, ERP sync, notification send, webhook, or retry is received more than once, the system can use the key to recognize the repeated operation and avoid creating duplicate business effects.
+
+For example, a payment success callback might arrive twice from a gateway. With idempotency, the platform records one successful payment outcome instead of posting two receipts or triggering duplicate invoice updates.
