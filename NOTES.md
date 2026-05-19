@@ -56,6 +56,28 @@ Pricing basis is the source or method used to calculate or choose the commercial
 
 This term is important because two prices can have the same amount but different governance. A manually entered quote, an approved rate-card price, and a winning RFQ bid may each require different approvals, audit records, validity rules, and downstream handling.
 
+## What is a Supplier, Truck, and Fleet in the Payments module?
+
+In the Payments module, the `party_type` field identifies who the payment is for. There are three values:
+
+**Supplier (party_type = 1)** is the customer who placed the booking — the shipper or consignor who owes money to WowTruck for freight services. Despite the label "Supplier", the `party_id` maps to `customer.customer_id`. This is the receivables side.
+
+**Truck (party_type = 2)** is an individual driver/truck. The `party_id` maps to `driver.driver_id`. Only active/onboarded drivers qualify. Journal adjustments post to the driver's ledger via `DriverJournal`. This is the payables side.
+
+**Fleet (party_type = 3)** is a transporter company or fleet operator that may manage multiple trucks and drivers. The `party_id` maps to `transporter_info.transporter_info_id`. Journal adjustments post to the transporter's ledger. This is also the payables side.
+
+The key distinction between Truck and Fleet is the level of the entity: Truck is an individual driver, Fleet is the company/transporter that owns or manages trucks.
+
+## What is fixed lane vs per-KM pricing?
+
+Fixed lane and per-KM are the two pricing modes on a corporate rate card (`corporate_rate_card.lane_or_km`):
+
+**Per KM (lane_or_km = 0):** The rate card stores a `cost_per_km` value. The total booking amount is calculated dynamically as `distance × cost_per_km`, where distance is the driving distance between pickup and drop coordinates.
+
+**Fixed Lane (lane_or_km = 1):** A flat agreed amount for the entire route is stored as `total_amount`. The booking amount is that flat figure regardless of actual distance. The system back-calculates `cost_per_km = lane_amount / distance` for internal reference, but billing uses the flat rate.
+
+Both modes are anchored to a specific pickup → drop location pair. The distinction is how the price is governed: per-KM is variable and distance-driven; fixed lane is a negotiated flat rate for that route. When a booking is created from a rate card, the mode is surfaced to the operator as `"LANE"` or `"KM"`.
+
 ## What is an idempotency key?
 
 An idempotency key is a unique reference used to make repeated requests safe. If a payment callback, ERP sync, notification send, webhook, or retry is received more than once, the system can use the key to recognize the repeated operation and avoid creating duplicate business effects.
