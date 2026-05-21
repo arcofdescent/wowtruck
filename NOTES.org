@@ -2,4 +2,4 @@
 ** FRS review
 ** Test cases prompt
  We have identified FRS use case in @ClientDocs
-  Generate Test cases model containing test cases definition for each of the Use case scenarios (1 for each scenario - happy , each alternate path). Currently the definition should contain just inputs and expected outputs definition.
+ Generate Test cases model containing test cases definition for each of the Use case scenarios (1 for each scenario - happy , each alternate path). Currently the definition should contain just inputs and expected outputs definition.
