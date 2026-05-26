@@ -1,4 +1,11 @@
 * TODO
 ** FRS review
-** Payment flow in the system
-Use existing source of wowtruckadmin and driver app API
+
+* Python setup
+** pyenv
+** uv
+** Python venv
+** FastAPI
+** SQLAlchemy
+** yoyo for migrations
+
